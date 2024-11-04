@@ -10,22 +10,29 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active" data-bs-interval="10000">
-      <img src="{% static "app/images/banner/b1.jpg" %}" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
+      <img src="{% static "app/images/banner/b1.jpg" %}" class="d-block w-100" alt="SP1"> {% comment %}Banner san pham( hinh anh) {% endcomment %}
+      <div class="carousel-caption d-none d-md-block bg-success text-white">
+        <h5>SP1</h5>
         <p>Some representative placeholder content for the first slide.</p>
       </div>
     </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="..." class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
+    <div class="carousel-item" data-bs-interval="2000" >
+      <img src="{% static "app/images/banner/b2.jpg" %}" class="d-block w-100" alt="SP2">
+      <div class="carousel-caption d-none d-md-block bg-success text-white">
+        <h5>SP2</h5>
         <p>Some representative placeholder content for the second slide.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
+      <img src="{% static "app/images/banner/b3.jpg" %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block bg-success text-white">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static "app/images/banner/b4.jpg" %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block bg-success text-white">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the third slide.</p>
       </div>
@@ -42,5 +49,5 @@
 </div>
 {% endblock banner_slider %}
 {%block main-content%}
-    wellcome mysite
+wellcome mysite
 {%endblock main-content%}
