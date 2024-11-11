@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}
+{% block main-content %}
+    <div class="container">
+        <h5 class="text-center">Kết quả tìm kiếm cho: "{{ searched }}"</h5>
+        <div class="list-group">
+            <div class="row">
+                {% for product in keys %}
+                <div class="col-lg-3">
+                    <img class="thumbnail" src="{{product.IMAGEURL}}">
+                    <div class="box-element product">
+                        <h6><strong>{{ product.name }}</strong></h6>
+                        <hr>
+                        <div class="product-actions">
+                          <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Thêm vào giỏ hàng</button>
+                            <a class="btn btn-outline-success" href="#">Xem</a>
+                            <!-- Khung giá tiền -->
+                            <div class="price-card">
+                                <h4><strong>{{ product.price }} VND</strong></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+              </div>
+        </div>
+    </div>
+{% endblock main-content %}
