@@ -133,3 +133,7 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was updated', safe=False)
+
+def Information(request):
+    context={}
+    return render(request, 'app/information.html')

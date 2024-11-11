@@ -40,7 +40,7 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Trang chủ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Giới thiệu</a>
+                <a class="nav-link" href="{% url "Information" %}">Giới thiệu</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,7 +49,7 @@
                 <ul class="dropdown-menu">
                   {%for category in categories%}
                   <li><a class="dropdown-item" href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a></li>
-                  {%endfor%}          
+                  {%endfor%}
                 </ul>
               </li>
               <li class="nav-item">
@@ -89,16 +89,13 @@
 
     <!--Main body-->
     {% block banner_slider %}
-   
     {% endblock banner_slider %}
-
     {% block main-content %}
-     
     {% endblock main-content %}
     {% block cart_content %}{% endblock cart_content %}
     {% block content_checkout %}{% endblock content_checkout %}
     {% block register %}{% endblock register %}
-
+    {% block Information %}{% endblock Information%}
     <!-- Footer -->
     <footer class="container-fluid bg-success text-center fixed-bottom p-2 mt-5">
         Copyright by Hieu

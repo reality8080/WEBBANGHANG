@@ -1,0 +1,76 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block Information %}
+<header>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Giới thiệu Từng Người</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f4f4f4;
+            }
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            .person {
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 10px;
+                width: 250px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng đổ */
+                transition: transform 0.2s; /* Hiệu ứng chuyển động */
+            }
+            .person:hover {
+                transform: translateY(-5px); /* Nổi lên khi di chuột */
+            }
+            h2 {
+                color: #333;
+            }
+            p {
+                line-height: 1.5;
+            }
+        </style>
+    </header>
+
+    <h1>Giới thiệu Từng Người</h1>
+
+<div class="container">
+    <div class="person">
+        <img src="{% static 'app/images/placeholder.png' %}" width="218" height="190">
+        <h2>Nguyễn Văn A</h2>
+        <p>Tuổi: 30</p>
+        <p>Email: a@example.com</p>
+        <p>Giới thiệu: Một nhà phát triển web với 5 năm kinh nghiệm.</p>
+    </div>
+    <div class="person">
+        <img src="{% static 'app/images/placeholder.png' %}" width="218" height="190">
+        <h2>Trần Thị B</h2>
+        <p>Tuổi: 28</p>
+        <p>Email: b@example.com</p>
+        <p>Giới thiệu: Chuyên viên marketing kỹ thuật số.</p>
+    </div>
+    <div class="person">
+        <img src="{% static 'app/images/placeholder.png' %}" width="218" height="190">
+        <h2>Phạm Văn C</h2>
+        <p>Tuổi: 35</p>
+        <p>Email: c@example.com</p>
+        <p>Giới thiệu: Quản lý dự án với kinh nghiệm quốc tế.</p>
+    </div>
+    <div class="person">
+        <img src="{% static 'app/images/placeholder.png' %}" width="218" height="190">
+        <h2>Phạm Văn D</h2>
+        <p>Tuổi: 35</p>
+        <p>Email: c@example.com</p>
+        <p>Giới thiệu: Quản lý dự án với kinh nghiệm quốc tế.</p>
+    </div>
+    <!-- Thêm nhiều khung giới thiệu người khác ở đây -->
+</div>
+
+</body>
+{% endblock Information%}
