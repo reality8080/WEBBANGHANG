@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout/', views.logoutPage, name='logout'),
     path('search/', views.search, name='search'),
     path('category/', views.category, name='category'),
-    path('Information', views.Information, name='Information')
+    path('Information/', views.Information, name='Information'),
+    path('chatbox/', views.chatbox, name='chatbox'),
 ]

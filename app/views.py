@@ -137,3 +137,7 @@ def updateItem(request):
 def Information(request):
     context={}
     return render(request, 'app/information.html')
+#######################################################
+def chatbox(request):
+    context={}
+    return render(request, 'app/chatbox.html')
