@@ -4,6 +4,9 @@ from .models import Category, CreateUserForm, Product, Order, OrderTime
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+#################
+from concurrent.futures import ThreadPoolExecutor
+
 
 def detail(request):
     if request.user.is_authenticated:
@@ -16,7 +19,16 @@ def detail(request):
         cartItems = order['get_cart_items']
     id = request.GET.get('id')
     products = Product.objects.filter(id=id)
-    categories = Category.objects.filter(is_sub = False)    
+    categories = Category.objects.filter(is_sub = False)
+    # Xử lý song song trên danh sách sản phẩm nếu cần
+    def enrich_product(product):
+        product.discounted_price = product.price * 0.9  # Ví dụ: thêm thông tin giảm giá
+        return product
+
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        enriched_products = list(executor.map(enrich_product, products))
+        
+        
     context = {'products': products,'categories' : categories,'items': items, 'order': order}
     return render(request, 'app/detail.html', context)
 def register(request):
@@ -36,7 +48,7 @@ def search(request):
         return render(request, 'app/search.html', {'searched': searched, 'keys': keys})
     else:
         return render(request, 'app/search.html', {})
-def category(request):  
+def category(request):
     categories = Category.objects.filter(is_sub=False)
     active_category = request.GET.get('category', '')  # Lấy slug của danh mục đang chọn
     
@@ -44,7 +56,15 @@ def category(request):
         products = Product.objects.filter(category__slug=active_category)
     else:
         products = Product.objects.all()  # Nếu không có danh mục nào được chọn, hiển thị tất cả sản phẩm
+#### Xử lí luồng trong python
+    def process_product(product):
+        # Thêm logic xử lý từng sản phẩm tại đây, ví dụ:
+        product.name = product.name.upper()
+        return product
 
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        processed_products = list(executor.map(process_product, products))
+####
     context = {
         'categories': categories,
         'products': products,
@@ -85,6 +105,15 @@ def home(request):
         cartItems = order['get_cart_items']
     categories = Category.objects.filter(is_sub = False)
     products = Product.objects.all()
+    ##Xử lí luồng
+    def process_product(product):
+        product.price_with_tax = product.price * 1.1  # Giả lập tính thuế
+        return product
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        processed_products = list(executor.map(process_product, products))
+    
+    ##
     context = {'categories':categories,'products': products}
     return render(request, 'app/home.html', context)
 
@@ -96,7 +125,12 @@ def cart(request):
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
-    
+    # Tính toán song song trên từng mục trong giỏ hàng
+    def calculate_item_total(item):
+        return item.quantity * item.product.price  # Ví dụ tính tổng giá từng sản phẩm
+
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        item_totals = list(executor.map(calculate_item_total, items))
     context = {'items': items, 'order': order}
     return render(request, 'app/cart.html', context)
 
@@ -122,18 +156,60 @@ def updateItem(request):
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
     orderItem, created = OrderTime.objects.get_or_create(order=order, product=product)
 
-    if action == 'add':
-        orderItem.quantity += 1
-    elif action == 'remove':
-        orderItem.quantity -= 1
+###Xu li luong
+    def update_order_item(order_item):##Phan duoc them
+        if action == 'add':
+            orderItem.quantity += 1
+        elif action == 'remove':
+            orderItem.quantity -= 1
 
-    orderItem.save()
+        orderItem.save()
 
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(update_order_item, [orderItem])
     return JsonResponse('Item was updated', safe=False)
 
 def Information(request):
     context={}
     return render(request, 'app/information.html')
+
+
+#############################################################################################
+# from concurrent.futures import ThreadPoolExecutor
+# from django.http import JsonResponse
+
+# def process_product(product_id):
+#     # Giả lập xử lý dữ liệu
+#     print(f"Processing product {product_id}")
+
+# def process_all_products_with_pool(request):
+#     product_ids = range(1, 101)  # Giả lập danh sách ID sản phẩm
+
+#     with ThreadPoolExecutor(max_workers=10) as executor:
+#         executor.map(process_product, product_ids)
+
+#     return JsonResponse({"status": "Products processed with ThreadPoolExecutor."})
+
+############################################################################################################
+import time
+from concurrent.futures import ThreadPoolExecutor
+from django.http import JsonResponse
+## Thay thế bằng những cái trên
+# Hàm giả lập một tác vụ nặng
+def process_product(product_id):
+    print(f"Processing product {product_id}...")
+    time.sleep(2)  # Giả lập mất 2 giây để xử lý một sản phẩm
+    print(f"Done processing product {product_id}.")
+
+# Hàm view chính (sẽ được liên kết với một URL)
+def process_all_products(request):
+    product_ids = range(1, 101)  # Giả lập danh sách 100 sản phẩm (ID từ 1 đến 100)
+##
+    # Sử dụng ThreadPoolExecutor để quản lý các luồng
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        # map áp dụng process_product cho từng product_id
+        executor.map(process_product, product_ids)
+
+    return JsonResponse({"status": "All products processed!"})
