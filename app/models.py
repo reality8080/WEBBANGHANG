@@ -78,7 +78,7 @@ class ShippingAddreess(models.Model):  # Corrected the spelling from "ShippingAd
     def __str__(self):
         return self.address
 class Category(models.Model):
-    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories') 
+    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories')
     is_sub = models.BooleanField(default=False)
     name = models.CharField(max_length=200, null=True)
     slug = models.SlugField(max_length=200, unique=True)
