@@ -16,4 +16,5 @@ urlpatterns = [
     path('Information', views.Information, name='Information'),
     ##Mo hinh lam thu
     path('process-products/', views.process_all_products, name='process_products'),
+    path('chatbox/', views.chatbox, name='chatbox'),
 ]

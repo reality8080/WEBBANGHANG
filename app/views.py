@@ -141,7 +141,7 @@ def checkout(request):
         items = order.ordertime_set.all()
     else:
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0}  
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
     
     context = {'items': items, 'order': order}
     return render(request, 'app/checkout.html', context)
@@ -213,3 +213,7 @@ def process_all_products(request):
         executor.map(process_product, product_ids)
 
     return JsonResponse({"status": "All products processed!"})
+#######################################################
+def chatbox(request):
+    context={}
+    return render(request, 'app/chatbox.html')
